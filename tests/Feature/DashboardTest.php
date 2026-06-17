@@ -30,4 +30,17 @@ class DashboardTest extends TestCase
             ->assertViewHas('leads', fn ($leads): bool => $leads->count() === 4)
             ->assertViewHas('events', fn ($events): bool => $events->count() === 1);
     }
+
+    public function test_dashboard_can_render_in_english_and_persian(): void
+    {
+        $this->get(route('dashboard', ['lang' => 'en']))
+            ->assertOk()
+            ->assertSee('Course Sales Bot Dashboard')
+            ->assertSee('dir="ltr"', false);
+
+        $this->get(route('dashboard', ['lang' => 'fa']))
+            ->assertOk()
+            ->assertSee('داشبورد بات فروش دوره')
+            ->assertSee('dir="rtl"', false);
+    }
 }
